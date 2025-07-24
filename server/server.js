@@ -10,6 +10,22 @@ require('dotenv').config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+const  allowedOrigins = [
+  'http://localhost:5173', // Vite dev server
+  'https://week-7-devops-deployment-assignment-o6h3.onrender.com'
+];
+
+app.use(cors({
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin)) return callback(null, true);
+    
+  },
+  credentials: true,
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  allowedHeaders: 'Content-Type, Authorization',
+
+}));
+
 // Security middleware
 app.use(helmet());
 app.use(compression());
